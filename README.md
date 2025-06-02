@@ -29,15 +29,15 @@ Before running the project, make sure you have the following installed:
 
 ```
 .
-├── address_manager.py       # Manage and store private keys and account addresses
-├── server.py                # Backend server for SSI functions
-├── main.py                  # Main dashboard for creating and managing DIDs
-├── entity_wallet.py         # Wallet simulation for users/cars using DIDs
-├── benchmark.py             # Run benchmarks for the framework
-├── graphs.py                # Generate visual graphs from benchmark results
-├── contracts/               # Truffle smart contract files
-├── migrations/              # Truffle deployment scripts
-├── .env                     # Environment variables
+├── services/address_manager.py      # Manage and store private keys and account addresses
+├── api/server.py                    # Backend server for SSI functions
+├── main.py                          # Main dashboard for creating and managing DIDs
+├── wallet/entity_wallet.py          # Wallet simulation for users/cars using DIDs
+├── benchmark.py                     # Run benchmarks for the framework
+├── graphs.py                        # Generate visual graphs from benchmark results
+├── contracts/                       # Truffle smart contract files
+├── migrations/                      # Truffle deployment scripts
+├── .env                             # Environment variables
 ```
 
 ---
