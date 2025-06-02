@@ -1,0 +1,85 @@
+{
+    "available": [],
+    "used": {
+        "did:ssi:entity:19ae61f7-ee2a-4e90-9706-72e2c1c1b7c7": {
+            "address": "0x5802A52f5C6606691d98614A3D5dbD1B5231a459",
+            "private_key": "0x680a27d5547069903ffa94b697bfc9b1c49f48b868081ce39f9e99223269a405"
+        },
+        "did:ssi:entity:c1a64dd1-82de-425a-b4f8-129b8825d02b": {
+            "address": "0xF0676D44EB7D168b28268767bef2533A17ff9d47",
+            "private_key": "0x5b1593becbc178ed4e69cf4695848e27659ecc11b3b4f6e69a6cf74edd2f09bd"
+        },
+        "did:ssi:entity:db2ab128-0b0e-48fa-850e-4191df7ef9ca": {
+            "address": "0x86179daa0dB03Ea4A9879652F137eECd3104Dd9B",
+            "private_key": "0xb1c896233abffb2c7cc9258444b8c5c7182009fb2d29d912c2fa4a2f06036c8b"
+        },
+        "did:ssi:entity:8abadf8c-5b56-4d58-89b3-80a516f34e1c": {
+            "address": "0xFC46C92140C20f1386aE69D82E8cFAc63EcA9273",
+            "private_key": "0x8e8815054e4eb4850c136a56c3121cdfac4213379fe907f8a153f6a11247bebb"
+        },
+        "did:ssi:entity:ef8bcd9b-fc6b-4923-8a02-69b2e6a09a1f": {
+            "address": "0x7C331a3f519BB020B5c4792814085cC81873213c",
+            "private_key": "0x406892d9f6f2cf2bc945989389df4ffaf04077fd0ec66f645993a6e7da89dbae"
+        },
+        "did:ssi:entity:26adfd9c-743f-486b-ba3e-88a0f9f8dcae": {
+            "address": "0xff245212b18512E1b5FBC3F226bDd4a62a45A815",
+            "private_key": "0x99f60b1a9a7c0fc9192c49f91cdb83b7a702bb7a1f739c070501e3d734ef36ac"
+        },
+        "did:ssi:entity:522586c5-01a3-4d13-865a-3fdcb80f7aec": {
+            "address": "0x97Fcf5980EcAd643F81B6a7DFEae6444280d96aD",
+            "private_key": "0x907673313aae7977ff30a1f76b529a380ec81b483e140246c213b3a72e075b4d"
+        },
+        "did:ssi:entity:cc146907-9ebe-4c7a-9ec9-afd7218ef558": {
+            "address": "0xD9d8Ff558c1273Bb3ACaA14e9Ee4c3B1D3012348",
+            "private_key": "0x26da5edf3ded30f0a70adc759095e3a940afdf0d7bd5436321e91ce3c3e8adf6"
+        },
+        "did:ssi:entity:282695dd-3df9-414e-9280-ae60e4cb2fad": {
+            "address": "0x9e1B4336258d2bef2E0d0314b8dEbf0D6db431D7",
+            "private_key": "0x7f03b3a5dcfd3b11b70f03b86069a85485c4fd087f4684b9b30ffb3d2b222d02"
+        },
+        "did:ssi:entity:0d3b404a-4a8c-4a5d-b629-0bc03538b8bc": {
+            "address": "0x338553e061A8682683e61D2d8E0ad3B32322857d",
+            "private_key": "0x13ef6312a4a99b0a75105ef3488928265b350f7e0bd5c5fb14a805c7b5484782"
+        },
+        "did:ssi:entity:26a88b9d-6fd3-4180-970c-00adb8e2b8ba": {
+            "address": "0x54b99Dc1C2f505CF0fAA465eCdA78c872b3749cC",
+            "private_key": "0xd09777239f86e807e5fbd5db02fe4cff51dcbc77b598dfcea6c62aea4117acd8"
+        },
+        "did:ssi:entity:be20f200-d6e6-4bb5-a9a2-89a911d32c11": {
+            "address": "0xF86C6fD8d11Bd7a5C4F19301BA6ab4Da0B69B206",
+            "private_key": "0xf30129e3a83a00cc00ffd35f43e6736102a64996074a01ea92abe12767e5fa4f"
+        },
+        "did:ssi:entity:3807a30d-e136-495b-aff6-a34c8a93949c": {
+            "address": "0x53799B8c448521A6bA35CC4C78DD66dD804ce8a8",
+            "private_key": "0x319b7d2ee2f737787132c25e23a165467ae9f33e894bd27c80a840506b38014c"
+        },
+        "did:ssi:entity:63aa09e6-8b33-4ab0-ab21-36ce7ec278aa": {
+            "address": "0xdc2190cF7895688D2FEE20716cB7dD6dEBB30b56",
+            "private_key": "0x17fb49e5ec17ca0be9600cc9bc20fe953620c98cd50ddb3ca64296a158f5e089"
+        },
+        "did:ssi:entity:56005959-f8a5-46c4-94b5-9714e99264fa": {
+            "address": "0x71980E1D5E4f176ADFE7bd90b968045B389274c7",
+            "private_key": "0x0350589197961a95ce7b2f20c6572e2935e2d1b71ea148cb8db115bd529dd0cf"
+        },
+        "did:ssi:entity:46933553-29db-4fbc-8169-a1ed4bc69fb2": {
+            "address": "0x1A23AD04C94FEEe69d12b9F95b1F83fff0B6EB23",
+            "private_key": "0xe99d4ee80bde64c73c7677e8eea1290f3bf8141de6d1cbe6554f4ff22900b7cc"
+        },
+        "did:ssi:entity:c0fa95e7-e965-4be0-8fbf-ae9ca0e64e91": {
+            "address": "0xA6b36a8E07e04F1295E609bc523fb9bC21900Bf1",
+            "private_key": "0xf3b9e5106823ff4393427367423ced5d74c8e8ffed38266d16808502e99b123b"
+        },
+        "did:ssi:entity:c21ea6c2-b382-4eac-8342-15b0c643ce2e": {
+            "address": "0x44E4947b4E64DB6AE0697F7fc479f0BC7ec70CC7",
+            "private_key": "0xe1d9daa75524b61b8abd701ccdc9d16b8bea6397ae9bf6df0fe91d90f4841516"
+        },
+        "did:ssi:entity:09b1ce95-ad2e-48db-8fef-e9cf2e493fc5": {
+            "address": "0xCDc10fDFBfF34Cb71180857D89756639799Ba78d",
+            "private_key": "0xb69bcb1262256040a2e1f90c31245a0d89664e20402bd8a7595c5ff7b01d0c07"
+        },
+        "did:ssi:entity:95693843-9e3d-44db-b3f7-31ddf3530e01": {
+            "address": "0xF8a4c9d195B8Fcc4d453daB43afF54ba93d36311",
+            "private_key": "0x5edc5c96c4cd7e3e3378664d1380063df70fee8d539356650d2dd9b8262bad47"
+        }
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "063da2eb-b5c1-4de9-ba17-ad6fce80528a": {
+        "response_data": {
+            "request_id": "063da2eb-b5c1-4de9-ba17-ad6fce80528a",
+            "response_type": "approval",
+            "data": {
+                "raw": "`{\"speed\": 60}`"
+            },
+            "sender_did": "did:ssi:entity:5ec10199-71c1-4940-b94a-d72d7debb270",
+            "recipient_did": "did:ssi:entity:234e1648-c450-4e57-98d5-d8ba73ac6fa1"
+        },
+        "llm_decision": true,
+        "llm_reason": "1. **Decision:** Approve\n\n2. **Justification:** This is a Roadside Unit (RSU) data request. The RSU's DID (`did:ssi:entity:234e1648-c450-4e57-98d5-d8ba73ac6fa1`) is provided and can be verified (this step is assumed; in a real system, verification would need to occur). The request is for speed data, which is non-sensitive and aligns with typical RSU needs for traffic management. The user's wallet configuration explicitly allows sharing speed data with roadside units without requiring consent (`requires_consent: False`).  The request does not involve location data or personal information, adhering to privacy principles.\n\n3. **Recommended Data Access Scope:**  `speed`: 60\n\n4. **User Wallet Approval:** no (Consent is not required based on the wallet configuration)\n\n5. **Return Requested Data:** `{\"speed\": 60}`\n"
+    },
+    "0786e831-0161-4943-a46b-904099714209": {
+        "response_data": {
+            "request_id": "0786e831-0161-4943-a46b-904099714209",
+            "response_type": "approval",
+            "data": {
+                "raw": "`{\"engine_temperature\": 95}`"
+            },
+            "sender_did": "did:ssi:entity:5ec10199-71c1-4940-b94a-d72d7debb270",
+            "recipient_did": "did:ssi:entity:234e1648-c450-4e57-98d5-d8ba73ac6fa1"
+        },
+        "llm_decision": true,
+        "llm_reason": "1. **Decision:** Approve\n\n2. **Justification:** The request originates from a Roadside Unit (RSU) with a verifiable DID.  The request is for \"vehicle heat status\" (temperature), which is considered non-sensitive data according to the contextual notes. The user's wallet configuration allows sharing of temperature data with roadside units without requiring consent (`requires_consent: False`). This aligns with the IoV-SSI principles of decentralized identity verification, user consent (implicitly granted), privacy protection (minimal disclosure), and selective disclosure (only temperature is requested).  The request does not involve location data, which requires explicit consent.\n\n3. **Recommended Data Access Scope:**  `engine_temperature` (95).\n\n4. **User Wallet Approval:** no (Consent is not required based on the wallet configuration)\n\n5. **Return Requested Data:** `{\"engine_temperature\": 95}`\n"
+    }
+}

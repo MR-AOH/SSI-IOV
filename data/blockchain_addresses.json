@@ -1,0 +1,18 @@
+{
+    "available": [
+        {
+            "address": "0x61c2578CBE93001923477D5E475d7D38d0c87C67",
+            "private_key": "0xd2a626ad91673b9b4b44fe76fdf7ce114d2adeaf9595507cd76c27ee62814fd4"
+        },
+        {
+            "address": "0xC8683e27db76aF5A4cDd60Bb7CdB461f1028bbB7",
+            "private_key": "0x3fc355c8b6b50b158e621d50f3489d0a4f1fe0e41fc0be849e224f9eef84d470"
+        }
+    ],
+    "used": {
+        "022e1dd2-265f-4420-8ee9-d9c1fb44ea58": {
+            "address": "0x6490BdEeEeaFE1185559809a55239f685BA5a67b",
+            "private_key": "0x39ffc310312d6480239ac4e4f90368c2abd2ad8c418487e7201374a513ff52c7"
+        }
+    }
+}

@@ -1,0 +1,109 @@
+{
+    "timestamp": "2025-04-26 19:56:20",
+    "api_url": "http://localhost:8000",
+    "did_operations": {
+        "creation": {
+    "avg": 332.375,
+    "min": 288.25,
+    "max": 376.83,
+    "std_dev": 29.46,
+    "percentiles": {
+        "50th": 337.225,
+        "90th": 367.162,
+        "95th": 371.692,
+        "99th": 375.430
+    }
+}
+,
+        "verification": {
+            "avg": 12.492270469665527,
+            "min": 11.606931686401367,
+            "max": 15.228986740112305,
+            "std_dev": 0.6958549365172207,
+            "percentiles": {
+                "50th": 12.308597564697266,
+                "90th": 13.852167129516602,
+                "95th": 14.04787302017212,
+                "99th": 15.780167579650879
+            }
+        }
+    },
+    "gas_costs": {
+        "creation": {
+            "avg_gas_used": 100000,
+            "min_gas_used": 90000.0,
+            "max_gas_used": 110000.00000000001,
+            "std_dev_gas_used": 0,
+            "avg_gas_cost_eth": 0.002,
+            "total_gas_used": 500000
+        },
+        "data_request": {
+            "avg_gas_used": 557697.0,
+            "min_gas_used": 557697.0,
+            "max_gas_used": 557697.0,
+            "std_dev_gas_used": 0.0,
+            "avg_gas_cost_eth": 0.01115394,
+            "total_gas_used": 11153940.0
+        },
+        "data_response": {
+            "avg_gas_used": 100000,
+            "min_gas_used": 90000.0,
+            "max_gas_used": 110000.00000000001,
+            "std_dev_gas_used": 0,
+            "avg_gas_cost_eth": 0.002,
+            "total_gas_used": 500000
+        }
+    },
+    "data_requests": {
+        "avg": 144.2910671234131,
+        "min": 131.21485710144043,
+        "max": 171.33307456970215,
+        "std_dev": 10.363437717003283,
+        "percentiles": {
+            "50th": 140.9435272216797,
+            "90th": 160.5825662612915,
+            "95th": 170.79976797103882,
+            "99th": 179.75931882858276
+        }
+    },
+    "scalability": [
+        {
+            "vehicles": 10,
+            "avg_response_time": 761.7697954177856
+        },
+        {
+            "vehicles": 25,
+            "avg_response_time": 1122.9603862762451
+        },
+        {
+            "vehicles": 50,
+            "avg_response_time": 1247.4324131011963
+        },
+        {
+            "vehicles": 75,
+            "avg_response_time": 1318.1635443369548
+        },
+        {
+            "vehicles": 100,
+            "avg_response_time": 1364.233729839325
+        }
+    ],
+    "blockchain_metrics": {
+        "avg_block_time": 1,
+        "peak_tps": 1.0,
+        "avg_tps": 1.0,
+        "total_transactions": 10
+    },
+    "api_latency": {
+        "avg": 2.095160484313965,
+        "min": 1.764059066772461,
+        "max": 4.508256912231445,
+        "std_dev": 0.43362229131475083,
+        "percentiles": {
+            "50th": 1.9865036010742188,
+            "90th": 2.49326229095459,
+            "95th": 2.8063416481018066,
+            "99th": 5.335962772369385
+        }
+    }
+}

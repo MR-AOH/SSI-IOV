@@ -1,0 +1,119 @@
+{
+    "preferences": {
+        "did:ssi:entity:4cc69a07-badb-4b68-a6e9-bf5896e07839": {
+            "speed": {
+                "share_with": [
+                    "roadside_unit",
+                    "vehicle"
+                ],
+                "requires_consent": false
+            },
+            "location": {
+                "share_with": [
+                    "emergency",
+                    "roadside_unit",
+                    "insurance"
+                ],
+                "requires_consent": true
+            }
+        },
+        "did:ssi:entity:d19a0da9-8f8a-4629-8924-be34f502d461": {
+            "speed": {
+                "share_with": [
+                    "roadside_unit",
+                    "vehicle"
+                ],
+                "requires_consent": false
+            },
+            "location": {
+                "share_with": [
+                    "roadside_unit",
+                    "emergency"
+                ],
+                "requires_consent": true
+            },
+            "battery": {
+                "share_with": [
+                    "mechanic",
+                    "roadside_unit"
+                ],
+                "requires_consent": true
+            }
+        },
+        "did:ssi:entity:eca5743b-681b-439a-a3a9-cda5db2844c9": {
+            "speed": {
+                "share_with": [
+                    "roadside_unit",
+                    "vehicle"
+                ],
+                "requires_consent": false
+            },
+            "location": {
+                "share_with": [
+                    "emergency",
+                    "roadside_unit",
+                    "vehicle",
+                    "insurance"
+                ],
+                "requires_consent": true
+            },
+            "temperature": {
+                "share_with": [
+                    "mechanic",
+                    "roadside_unit"
+                ],
+                "requires_consent": false
+            },
+            "battery": {
+                "share_with": [
+                    "roadside_unit",
+                    "mechanic"
+                ],
+                "requires_consent": false
+            }
+        },
+        "did:ssi:entity:7651a90a-9f43-4793-b3d6-4654299c2dfa": {
+            "location": {
+                "share_with": [
+                    "emergency",
+                    "roadside_unit"
+                ],
+                "requires_consent": true
+            },
+            "battery": {
+                "share_with": [
+                    "mechanic",
+                    "roadside_unit"
+                ],
+                "requires_consent": false
+            }
+        },
+        "did:ssi:entity:5ec10199-71c1-4940-b94a-d72d7debb270": {
+            "location": {
+                "share_with": [
+                    "roadside_unit",
+                    "emergency"
+                ],
+                "requires_consent": true
+            },
+            "battery": {
+                "share_with": [
+                    "mechanic"
+                ],
+                "requires_consent": false
+            },
+            "speed": {
+                "share_with": [
+                    "roadside_unit"
+                ],
+                "requires_consent": false
+            },
+            "temperature": {
+                "share_with": [
+                    "roadside_unit"
+                ],
+                "requires_consent": false
+            }
+        }
+    }
+}
