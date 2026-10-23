@@ -1,0 +1,53 @@
+
+VII-H. User-Controlled Privacy: Empirical Results
+
+Table IV characterizes this work as offering "User Control Privacy," a claim
+that must be evidenced rather than asserted (the same principle applied
+throughout this evaluation). We operationalize user control as follows: for
+every request, the system either (a) defers entirely to the user's own
+pre-declared consent and policy record (has_consent, policy_allows -
+i.e., the request is decided by what the user themselves has authorized),
+or (b) invokes the single, formally-justified emergency-override exception
+of Section VI-C, which bypasses consent only when collision_detected AND
+airbag deployment AND impact_force > 5.0g all hold simultaneously. Case (a)
+is the direct, measurable form of user-controlled privacy; case (b) is a
+deliberate, narrowly-scoped, provably-bounded exception to it, not a
+loophole.
+
+Table Y. User-Approval-Governed vs. Emergency-Override Requests
+  Dataset                    Total   User-Approval-Governed   Emergency-Override
+  Standard (100 scenarios)   100     75 (75.0%)              25 (25.0%)
+  Generalization (20)        20      15 (75.0%)               5 (25.0%)
+
+Table Z. User-Approval Fidelity - how often each system's actual decision
+matched what the user's own consent/policy settings dictated, versus how
+often the emergency-override exception was invoked correctly
+  Dataset          System          User-Approval Fidelity        Emergency-Override Accuracy
+  Standard (100)   Rule-Based      100.0% (n=75)   100.0% (n=25)
+  Standard (100)   LLM-Based       100.0% (n=75)   100.0% (n=25)
+  Generalization   Rule-Based      13.33% (n=15)   20.0% (n=5)
+  Generalization   LLM-Based*      80.0% (n=15)   100.0% (n=5)
+  *LLM-Based generalization figures are majority-vote decisions across 5 repeated
+  trials (see repeated_runs_summary.json), reported this way due to run-to-run
+  sampling variance at temperature=0.3.
+
+On the standard set, 75.0% of requests were arbitrated purely by the
+user's own declared consent and policy - the platform never overrides these
+decisions. Only 25.0% invoked the emergency-override exception, and only
+under sensor-corroborated, multi-condition evidence. On the held-out
+generalization set, 75.0% of requests fall under user-approval governance,
+including cases specifically designed to test whether the decision layer
+would honor the user's settings even when a requester's claimed justification
+is misleading (see the insider-attack scenario in Section VII-G) - a
+rule-based scope-check that lacks the requester type from its static consent
+matrix silently defaults away from the user's actual policy, whereas the
+LLM cross-checks the claim against live sensor state before deferring to it.
+
+As a complementary measure of user-controlled privacy - data minimization
+under selective disclosure - across the 45 approved requests in the
+standard set for which a recommended_data_scope was produced, the decision
+layer disclosed an average of 2.09 of 11 available vehicle
+telemetry fields (18.99% of the full sensor surface), i.e. even
+on approval, the system releases materially less than everything the
+vehicle has to offer, consistent with the selective-disclosure formalism of
+Section IV-B.

@@ -1,0 +1,82 @@
+{
+  "definition": {
+    "user_approval_required": "not is_emergency - the request is arbitrated by the user's own pre-declared consent/policy record (has_consent, policy_allows), not a platform override.",
+    "emergency_override": "is_emergency=True - the sole formally-justified exception (Sec. VI-C: collision_detected AND airbag deployed AND impact_force > 5.0g) where the system bypasses user consent for life-safety reasons."
+  },
+  "main_dataset_100": {
+    "split": {
+      "total": 100,
+      "user_approval_required": 75,
+      "emergency_override": 25,
+      "user_approval_required_pct": 75.0,
+      "emergency_override_pct": 25.0
+    },
+    "fidelity": {
+      "rule_based": {
+        "user_approval_governed": {
+          "n": 75,
+          "correct": 75,
+          "fidelity_pct": 100.0
+        },
+        "emergency_override": {
+          "n": 25,
+          "correct": 25,
+          "fidelity_pct": 100.0
+        }
+      },
+      "llm_based": {
+        "user_approval_governed": {
+          "n": 75,
+          "correct": 75,
+          "fidelity_pct": 100.0
+        },
+        "emergency_override": {
+          "n": 25,
+          "correct": 25,
+          "fidelity_pct": 100.0
+        }
+      }
+    }
+  },
+  "generalization_dataset_20": {
+    "split": {
+      "total": 20,
+      "user_approval_required": 15,
+      "emergency_override": 5,
+      "user_approval_required_pct": 75.0,
+      "emergency_override_pct": 25.0
+    },
+    "fidelity": {
+      "rule_based": {
+        "user_approval_governed": {
+          "n": 15,
+          "correct": 2,
+          "fidelity_pct": 13.33
+        },
+        "emergency_override": {
+          "n": 5,
+          "correct": 1,
+          "fidelity_pct": 20.0
+        }
+      },
+      "llm_based_majority_vote": {
+        "user_approval_governed": {
+          "n": 15,
+          "correct": 12,
+          "fidelity_pct": 80.0
+        },
+        "emergency_override": {
+          "n": 5,
+          "correct": 5,
+          "fidelity_pct": 100.0
+        }
+      }
+    }
+  },
+  "selective_disclosure_main_dataset": {
+    "n_approved_with_scope": 45,
+    "avg_fields_disclosed": 2.09,
+    "avg_pct_of_available_fields_disclosed": 18.99,
+    "total_available_fields": 11
+  }
+}

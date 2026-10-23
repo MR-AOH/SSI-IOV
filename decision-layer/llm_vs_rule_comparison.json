@@ -1,0 +1,200 @@
+{
+  "overall": {
+    "rule_based": {
+      "system": "Rule-Based",
+      "accuracy_pct": 100.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "false_accept_rate_pct": 0.0,
+      "false_reject_rate_pct": 0.0,
+      "avg_latency_ms": 0.0022,
+      "confusion_matrix": {
+        "tn": 55,
+        "fp": 0,
+        "fn": 0,
+        "tp": 45
+      },
+      "n": 100,
+      "n_positive_class": 45,
+      "n_negative_class": 55
+    },
+    "llm_based": {
+      "system": "LLM-Based (Proposed)",
+      "accuracy_pct": 85.0,
+      "precision": 1.0,
+      "recall": 0.5714,
+      "f1": 0.7273,
+      "false_accept_rate_pct": 0.0,
+      "false_reject_rate_pct": 42.86,
+      "avg_latency_ms": 2625.1338,
+      "confusion_matrix": {
+        "tn": 13,
+        "fp": 0,
+        "fn": 3,
+        "tp": 4
+      },
+      "n": 20,
+      "n_positive_class": 7,
+      "n_negative_class": 13
+    }
+  },
+  "per_task": {
+    "rule_based": {
+      "emergency": {
+        "system": "Rule-Based",
+        "accuracy_pct": 100.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "false_accept_rate_pct": null,
+        "false_reject_rate_pct": 0.0,
+        "avg_latency_ms": 0.0035,
+        "confusion_matrix": {
+          "tn": 0,
+          "fp": 0,
+          "fn": 0,
+          "tp": 15
+        },
+        "n": 15,
+        "n_positive_class": 15,
+        "n_negative_class": 0
+      },
+      "insider_attack": {
+        "system": "Rule-Based",
+        "accuracy_pct": 100.0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "false_accept_rate_pct": 0.0,
+        "false_reject_rate_pct": null,
+        "avg_latency_ms": 0.0039,
+        "confusion_matrix": {
+          "tn": 25,
+          "fp": 0,
+          "fn": 0,
+          "tp": 0
+        },
+        "n": 25,
+        "n_positive_class": 0,
+        "n_negative_class": 25
+      },
+      "legitimate": {
+        "system": "Rule-Based",
+        "accuracy_pct": 100.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "false_accept_rate_pct": null,
+        "false_reject_rate_pct": 0.0,
+        "avg_latency_ms": 0.0014,
+        "confusion_matrix": {
+          "tn": 0,
+          "fp": 0,
+          "fn": 0,
+          "tp": 30
+        },
+        "n": 30,
+        "n_positive_class": 30,
+        "n_negative_class": 0
+      },
+      "policy_violation": {
+        "system": "Rule-Based",
+        "accuracy_pct": 100.0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "false_accept_rate_pct": 0.0,
+        "false_reject_rate_pct": null,
+        "avg_latency_ms": 0.0009,
+        "confusion_matrix": {
+          "tn": 30,
+          "fp": 0,
+          "fn": 0,
+          "tp": 0
+        },
+        "n": 30,
+        "n_positive_class": 0,
+        "n_negative_class": 30
+      }
+    },
+    "llm_based": {
+      "novel_ambiguous_emergency": {
+        "system": "LLM-Based (Proposed)",
+        "accuracy_pct": 100.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "false_accept_rate_pct": 0.0,
+        "false_reject_rate_pct": 0.0,
+        "avg_latency_ms": 2789.1224,
+        "confusion_matrix": {
+          "tn": 1,
+          "fp": 0,
+          "fn": 0,
+          "tp": 4
+        },
+        "n": 5,
+        "n_positive_class": 4,
+        "n_negative_class": 1
+      },
+      "novel_context_implausibility": {
+        "system": "LLM-Based (Proposed)",
+        "accuracy_pct": 100.0,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "false_accept_rate_pct": 0.0,
+        "false_reject_rate_pct": null,
+        "avg_latency_ms": 2466.5026,
+        "confusion_matrix": {
+          "tn": 5,
+          "fp": 0,
+          "fn": 0,
+          "tp": 0
+        },
+        "n": 5,
+        "n_positive_class": 0,
+        "n_negative_class": 5
+      },
+      "novel_purpose_drift": {
+        "system": "LLM-Based (Proposed)",
+        "accuracy_pct": 80.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_accept_rate_pct": 0.0,
+        "false_reject_rate_pct": 100.0,
+        "avg_latency_ms": 2422.948,
+        "confusion_matrix": {
+          "tn": 4,
+          "fp": 0,
+          "fn": 1,
+          "tp": 0
+        },
+        "n": 5,
+        "n_positive_class": 1,
+        "n_negative_class": 4
+      },
+      "novel_unrecognized_entity": {
+        "system": "LLM-Based (Proposed)",
+        "accuracy_pct": 60.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "false_accept_rate_pct": 0.0,
+        "false_reject_rate_pct": 100.0,
+        "avg_latency_ms": 2821.9623,
+        "confusion_matrix": {
+          "tn": 3,
+          "fp": 0,
+          "fn": 2,
+          "tp": 0
+        },
+        "n": 5,
+        "n_positive_class": 2,
+        "n_negative_class": 3
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "ssi-iov-did-registry",
+  "version": "1.0.0",
+  "description": "Compile/deploy tooling for the SSI-IoV DID registry smart contract",
+  "private": true,
+  "scripts": {
+    "compile": "node compile.js"
+  },
+  "devDependencies": {
+    "solc": "^0.8.21"
+  }
+}

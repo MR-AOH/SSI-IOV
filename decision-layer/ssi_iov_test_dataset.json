@@ -1,0 +1,4561 @@
+{
+  "metadata": {
+    "total_scenarios": 100,
+    "generation_timestamp": "2025-10-04T11:41:36.447737",
+    "scenario_distribution": {
+      "legitimate": 30,
+      "insider_attack": 25,
+      "emergency": 15,
+      "policy_violation": 30
+    },
+    "expected_metrics": {
+      "expected_approval_rate": "45.0%",
+      "expected_denial_rate": "55.0%",
+      "expected_emergency_overrides": 15,
+      "expected_insider_attack_detections": 25,
+      "expected_policy_compliance_rate": "75.0%"
+    }
+  },
+  "scenarios": [
+    {
+      "scenario_id": 5,
+      "scenario_type": "legitimate",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "brake_status"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 62,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 92,
+        "fuel": "34%",
+        "battery": "72%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2998,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized MECHANIC with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441755",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 57,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 77,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 90,
+        "fuel": "72%",
+        "battery": "95%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1421,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442714",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 63,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 63,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 82,
+        "fuel": "58%",
+        "battery": "89%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1608,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442761",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 36,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:911",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 120,
+        "fuel": "39%",
+        "battery": "24%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442561",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 33,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:911",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 107,
+        "fuel": "39%",
+        "battery": "45%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442544",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 83,
+      "scenario_type": "policy_violation",
+      "sender_type": "CAR",
+      "sender_did": "did:ssi:car:vehicle1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 65,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 86,
+        "fuel": "42%",
+        "battery": "66%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1350,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized CAR requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: CAR lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442916",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 22,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 59,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 84,
+        "fuel": "77%",
+        "battery": "70%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1412,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.442458",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 96,
+      "scenario_type": "policy_violation",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "sensor_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 39,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "85%",
+        "battery": "90%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2458,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Insurance provider claiming emergency but sensor data shows normal operation",
+      "expected_decision": "deny",
+      "expected_reason": "False emergency claim detected: Request marked as emergency but sensor data shows no collision, normal airbag status, and normal vehicle operation. Potential fraudulent access attempt.",
+      "timestamp": "2025-10-04T11:41:36.443012",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 68,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 72,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 87,
+        "fuel": "88%",
+        "battery": "66%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2308,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442800",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 42,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:ambulance",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 116,
+        "fuel": "35%",
+        "battery": "51%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442603",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 25,
+      "scenario_type": "legitimate",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "brake_status"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 27,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 82,
+        "fuel": "83%",
+        "battery": "83%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2090,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized MECHANIC with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.442480",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 73,
+      "scenario_type": "policy_violation",
+      "sender_type": "CAR",
+      "sender_did": "did:ssi:car:vehicle2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 63,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 92,
+        "fuel": "60%",
+        "battery": "75%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2827,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized CAR requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: CAR lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442837",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 45,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:ambulance",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 118,
+        "fuel": "40%",
+        "battery": "35%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442619",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 65,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 70,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 86,
+        "fuel": "60%",
+        "battery": "88%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2966,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442774",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 97,
+      "scenario_type": "policy_violation",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 75,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 93,
+        "fuel": "58%",
+        "battery": "63%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2259,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Insurance provider claiming emergency but sensor data shows normal operation",
+      "expected_decision": "deny",
+      "expected_reason": "False emergency claim detected: Request marked as emergency but sensor data shows no collision, normal airbag status, and normal vehicle operation. Potential fraudulent access attempt.",
+      "timestamp": "2025-10-04T11:41:36.443018",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 70,
+      "scenario_type": "insider_attack",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 74,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 93,
+        "fuel": "60%",
+        "battery": "64%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2433,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER attempting to access data outside their authorized scope during service",
+      "expected_decision": "deny",
+      "expected_reason": "Insider attack detected: INSURANCE_PROVIDER has valid credentials but is requesting data (location) outside their authorized scope. This violates the principle of minimal necessary disclosure.",
+      "timestamp": "2025-10-04T11:41:36.442815",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 58,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 69,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 83,
+        "fuel": "73%",
+        "battery": "75%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2659,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442724",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 61,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 25,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 81,
+        "fuel": "46%",
+        "battery": "68%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2904,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442744",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 74,
+      "scenario_type": "policy_violation",
+      "sender_type": "INDIVIDUAL",
+      "sender_did": "did:ssi:individual:user2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 52,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 86,
+        "fuel": "74%",
+        "battery": "66%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1088,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized INDIVIDUAL requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: INDIVIDUAL lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442846",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 71,
+      "scenario_type": "policy_violation",
+      "sender_type": "CAR",
+      "sender_did": "did:ssi:car:vehicle1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 77,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 89,
+        "fuel": "39%",
+        "battery": "63%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1005,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized CAR requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: CAR lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442823",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 46,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 56,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 89,
+        "fuel": "84%",
+        "battery": "85%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2128,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442629",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 32,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:ambulance",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 100,
+        "fuel": "11%",
+        "battery": "35%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442538",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 18,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 48,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 90,
+        "fuel": "71%",
+        "battery": "93%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1536,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441866",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 93,
+      "scenario_type": "policy_violation",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "sensor_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 75,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 92,
+        "fuel": "34%",
+        "battery": "76%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2435,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Insurance provider claiming emergency but sensor data shows normal operation",
+      "expected_decision": "deny",
+      "expected_reason": "False emergency claim detected: Request marked as emergency but sensor data shows no collision, normal airbag status, and normal vehicle operation. Potential fraudulent access attempt.",
+      "timestamp": "2025-10-04T11:41:36.442993",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 35,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:911",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 100,
+        "fuel": "10%",
+        "battery": "48%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442555",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 82,
+      "scenario_type": "policy_violation",
+      "sender_type": "CAR",
+      "sender_did": "did:ssi:car:vehicle1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 25,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 86,
+        "fuel": "45%",
+        "battery": "65%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1774,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized CAR requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: CAR lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442909",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 79,
+      "scenario_type": "policy_violation",
+      "sender_type": "CAR",
+      "sender_did": "did:ssi:car:vehicle2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 52,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 84,
+        "fuel": "60%",
+        "battery": "60%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2223,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized CAR requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: CAR lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442887",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 10,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 34,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 84,
+        "fuel": "83%",
+        "battery": "79%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1802,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441804",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 53,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 60,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 84,
+        "fuel": "56%",
+        "battery": "64%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1193,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442686",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 44,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:ambulance",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 113,
+        "fuel": "16%",
+        "battery": "60%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442614",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 100,
+      "scenario_type": "policy_violation",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "sensor_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 53,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 90,
+        "fuel": "75%",
+        "battery": "64%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1056,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Insurance provider claiming emergency but sensor data shows normal operation",
+      "expected_decision": "deny",
+      "expected_reason": "False emergency claim detected: Request marked as emergency but sensor data shows no collision, normal airbag status, and normal vehicle operation. Potential fraudulent access attempt.",
+      "timestamp": "2025-10-04T11:41:36.443042",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 94,
+      "scenario_type": "policy_violation",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "sensor_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 58,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 93,
+        "fuel": "57%",
+        "battery": "83%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2230,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Insurance provider claiming emergency but sensor data shows normal operation",
+      "expected_decision": "deny",
+      "expected_reason": "False emergency claim detected: Request marked as emergency but sensor data shows no collision, normal airbag status, and normal vehicle operation. Potential fraudulent access attempt.",
+      "timestamp": "2025-10-04T11:41:36.443000",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 48,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 36,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 94,
+        "fuel": "59%",
+        "battery": "62%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1090,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442648",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 84,
+      "scenario_type": "policy_violation",
+      "sender_type": "CAR",
+      "sender_did": "did:ssi:car:vehicle2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 38,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 84,
+        "fuel": "58%",
+        "battery": "63%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2215,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized CAR requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: CAR lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442923",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 1,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "speed"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 80,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 87,
+        "fuel": "39%",
+        "battery": "70%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1704,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441670",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 51,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 70,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 84,
+        "fuel": "40%",
+        "battery": "60%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1634,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442673",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 54,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "speed"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 66,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 85,
+        "fuel": "71%",
+        "battery": "90%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1272,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC attempting to access data outside their authorized scope during service",
+      "expected_decision": "deny",
+      "expected_reason": "Insider attack detected: MECHANIC has valid credentials but is requesting data (location) outside their authorized scope. This violates the principle of minimal necessary disclosure.",
+      "timestamp": "2025-10-04T11:41:36.442693",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 26,
+      "scenario_type": "legitimate",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "brake_status"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 78,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 80,
+        "fuel": "34%",
+        "battery": "69%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1228,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized MECHANIC with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.442487",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 28,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "mileage"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 56,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 93,
+        "fuel": "36%",
+        "battery": "68%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1804,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.442505",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 21,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "speed"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 61,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 94,
+        "fuel": "55%",
+        "battery": "93%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2607,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.442450",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 38,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:911",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 117,
+        "fuel": "20%",
+        "battery": "42%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442576",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 50,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 65,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 95,
+        "fuel": "59%",
+        "battery": "82%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1314,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442666",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 11,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 61,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 83,
+        "fuel": "83%",
+        "battery": "76%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1113,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441812",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 9,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 77,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 92,
+        "fuel": "63%",
+        "battery": "75%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2218,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441794",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 80,
+      "scenario_type": "policy_violation",
+      "sender_type": "CAR",
+      "sender_did": "did:ssi:car:vehicle1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 43,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "54%",
+        "battery": "78%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2084,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized CAR requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: CAR lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442894",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 76,
+      "scenario_type": "policy_violation",
+      "sender_type": "INDIVIDUAL",
+      "sender_did": "did:ssi:individual:user2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 51,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 89,
+        "fuel": "54%",
+        "battery": "87%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1451,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized INDIVIDUAL requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: INDIVIDUAL lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442860",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 49,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "speed"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 23,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 80,
+        "fuel": "34%",
+        "battery": "86%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2432,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC attempting to access data outside their authorized scope during service",
+      "expected_decision": "deny",
+      "expected_reason": "Insider attack detected: MECHANIC has valid credentials but is requesting data (location) outside their authorized scope. This violates the principle of minimal necessary disclosure.",
+      "timestamp": "2025-10-04T11:41:36.442656",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 95,
+      "scenario_type": "policy_violation",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 56,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 87,
+        "fuel": "74%",
+        "battery": "87%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2823,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Insurance provider claiming emergency but sensor data shows normal operation",
+      "expected_decision": "deny",
+      "expected_reason": "False emergency claim detected: Request marked as emergency but sensor data shows no collision, normal airbag status, and normal vehicle operation. Potential fraudulent access attempt.",
+      "timestamp": "2025-10-04T11:41:36.443006",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 55,
+      "scenario_type": "insider_attack",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 69,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 85,
+        "fuel": "86%",
+        "battery": "74%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2709,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER attempting to access data outside their authorized scope during service",
+      "expected_decision": "deny",
+      "expected_reason": "Insider attack detected: INSURANCE_PROVIDER has valid credentials but is requesting data (location) outside their authorized scope. This violates the principle of minimal necessary disclosure.",
+      "timestamp": "2025-10-04T11:41:36.442701",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 91,
+      "scenario_type": "policy_violation",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 66,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 91,
+        "fuel": "58%",
+        "battery": "94%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1598,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Insurance provider claiming emergency but sensor data shows normal operation",
+      "expected_decision": "deny",
+      "expected_reason": "False emergency claim detected: Request marked as emergency but sensor data shows no collision, normal airbag status, and normal vehicle operation. Potential fraudulent access attempt.",
+      "timestamp": "2025-10-04T11:41:36.442980",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 99,
+      "scenario_type": "policy_violation",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 51,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 92,
+        "fuel": "45%",
+        "battery": "81%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2260,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Insurance provider claiming emergency but sensor data shows normal operation",
+      "expected_decision": "deny",
+      "expected_reason": "False emergency claim detected: Request marked as emergency but sensor data shows no collision, normal airbag status, and normal vehicle operation. Potential fraudulent access attempt.",
+      "timestamp": "2025-10-04T11:41:36.443036",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 62,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "speed"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 26,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 95,
+        "fuel": "69%",
+        "battery": "75%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2455,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC attempting to access data outside their authorized scope during service",
+      "expected_decision": "deny",
+      "expected_reason": "Insider attack detected: MECHANIC has valid credentials but is requesting data (location) outside their authorized scope. This violates the principle of minimal necessary disclosure.",
+      "timestamp": "2025-10-04T11:41:36.442754",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 4,
+      "scenario_type": "legitimate",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "fuel"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 48,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 80,
+        "fuel": "82%",
+        "battery": "64%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2619,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized MECHANIC with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441743",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 31,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:911",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 115,
+        "fuel": "13%",
+        "battery": "20%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442532",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 6,
+      "scenario_type": "legitimate",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "battery"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 34,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "67%",
+        "battery": "76%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2347,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized MECHANIC with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441764",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 37,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:ambulance",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 119,
+        "fuel": "19%",
+        "battery": "24%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442566",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 92,
+      "scenario_type": "policy_violation",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 42,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 92,
+        "fuel": "67%",
+        "battery": "88%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2547,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Insurance provider claiming emergency but sensor data shows normal operation",
+      "expected_decision": "deny",
+      "expected_reason": "False emergency claim detected: Request marked as emergency but sensor data shows no collision, normal airbag status, and normal vehicle operation. Potential fraudulent access attempt.",
+      "timestamp": "2025-10-04T11:41:36.442986",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 34,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:ambulance",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 102,
+        "fuel": "32%",
+        "battery": "36%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442550",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 98,
+      "scenario_type": "policy_violation",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 47,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 80,
+        "fuel": "54%",
+        "battery": "93%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2924,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Insurance provider claiming emergency but sensor data shows normal operation",
+      "expected_decision": "deny",
+      "expected_reason": "False emergency claim detected: Request marked as emergency but sensor data shows no collision, normal airbag status, and normal vehicle operation. Potential fraudulent access attempt.",
+      "timestamp": "2025-10-04T11:41:36.443029",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 24,
+      "scenario_type": "legitimate",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "fuel"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 35,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 90,
+        "fuel": "53%",
+        "battery": "93%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1155,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized MECHANIC with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.442473",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 39,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:911",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 108,
+        "fuel": "22%",
+        "battery": "53%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442582",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 2,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "speed"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 80,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 95,
+        "fuel": "90%",
+        "battery": "85%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2277,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441722",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 17,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 44,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 93,
+        "fuel": "50%",
+        "battery": "90%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2764,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441857",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 85,
+      "scenario_type": "policy_violation",
+      "sender_type": "INDIVIDUAL",
+      "sender_did": "did:ssi:individual:user1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 65,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 80,
+        "fuel": "51%",
+        "battery": "92%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2684,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized INDIVIDUAL requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: INDIVIDUAL lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442929",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 88,
+      "scenario_type": "policy_violation",
+      "sender_type": "CAR",
+      "sender_did": "did:ssi:car:vehicle2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 80,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 84,
+        "fuel": "55%",
+        "battery": "92%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2642,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized CAR requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: CAR lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442956",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 16,
+      "scenario_type": "legitimate",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "tire_pressure"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 31,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 85,
+        "fuel": "71%",
+        "battery": "94%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1928,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized MECHANIC with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441850",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 41,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:ambulance",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 105,
+        "fuel": "10%",
+        "battery": "21%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442595",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 40,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:911",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 119,
+        "fuel": "33%",
+        "battery": "44%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442589",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 13,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "mileage"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 59,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 89,
+        "fuel": "77%",
+        "battery": "95%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1777,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441826",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 15,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 58,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 86,
+        "fuel": "61%",
+        "battery": "68%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2823,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441842",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 56,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 50,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 81,
+        "fuel": "72%",
+        "battery": "94%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1815,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442707",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 67,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 55,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 90,
+        "fuel": "46%",
+        "battery": "88%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2080,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442792",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 52,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 53,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 95,
+        "fuel": "73%",
+        "battery": "68%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2836,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442679",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 60,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "speed"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 69,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 93,
+        "fuel": "43%",
+        "battery": "68%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2694,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC attempting to access data outside their authorized scope during service",
+      "expected_decision": "deny",
+      "expected_reason": "Insider attack detected: MECHANIC has valid credentials but is requesting data (location) outside their authorized scope. This violates the principle of minimal necessary disclosure.",
+      "timestamp": "2025-10-04T11:41:36.442738",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 86,
+      "scenario_type": "policy_violation",
+      "sender_type": "CAR",
+      "sender_did": "did:ssi:car:vehicle1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 24,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "82%",
+        "battery": "73%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2154,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized CAR requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: CAR lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442936",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 72,
+      "scenario_type": "policy_violation",
+      "sender_type": "INDIVIDUAL",
+      "sender_did": "did:ssi:individual:user1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 32,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 95,
+        "fuel": "45%",
+        "battery": "83%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1069,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized INDIVIDUAL requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: INDIVIDUAL lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442830",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 8,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "speed"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 58,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 94,
+        "fuel": "38%",
+        "battery": "66%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2133,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441784",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 30,
+      "scenario_type": "legitimate",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "fuel"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 58,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 87,
+        "fuel": "56%",
+        "battery": "82%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1784,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized MECHANIC with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.442522",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 78,
+      "scenario_type": "policy_violation",
+      "sender_type": "CAR",
+      "sender_did": "did:ssi:car:vehicle1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 49,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 80,
+        "fuel": "76%",
+        "battery": "90%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1860,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized CAR requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: CAR lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442880",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 43,
+      "scenario_type": "emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:911",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 120,
+        "fuel": "12%",
+        "battery": "24%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 8.5,
+        "emergency_alert": true
+      },
+      "context": "Vehicle collision detected, emergency services requesting critical data",
+      "expected_decision": "approve",
+      "expected_reason": "Emergency override: Accident detected with airbag deployment and collision sensors triggered. Policy override justified to save lives.",
+      "timestamp": "2025-10-04T11:41:36.442609",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 27,
+      "scenario_type": "legitimate",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "battery"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 73,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "79%",
+        "battery": "79%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1657,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized MECHANIC with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.442495",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 12,
+      "scenario_type": "legitimate",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "battery"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 53,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 93,
+        "fuel": "58%",
+        "battery": "84%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1402,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized MECHANIC with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441819",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 3,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "speed"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 33,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "81%",
+        "battery": "74%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1731,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441734",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 14,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "speed"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 28,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 81,
+        "fuel": "62%",
+        "battery": "91%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1510,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441834",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 69,
+      "scenario_type": "insider_attack",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 67,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 83,
+        "fuel": "79%",
+        "battery": "74%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1632,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER attempting to access data outside their authorized scope during service",
+      "expected_decision": "deny",
+      "expected_reason": "Insider attack detected: INSURANCE_PROVIDER has valid credentials but is requesting data (location) outside their authorized scope. This violates the principle of minimal necessary disclosure.",
+      "timestamp": "2025-10-04T11:41:36.442807",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 81,
+      "scenario_type": "policy_violation",
+      "sender_type": "CAR",
+      "sender_did": "did:ssi:car:vehicle2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 41,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "80%",
+        "battery": "62%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2883,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized CAR requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: CAR lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442900",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 19,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "mileage"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 45,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 92,
+        "fuel": "40%",
+        "battery": "65%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1054,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441873",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 23,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "mileage"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 34,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 91,
+        "fuel": "89%",
+        "battery": "93%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1809,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.442465",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 20,
+      "scenario_type": "legitimate",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 57,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 91,
+        "fuel": "90%",
+        "battery": "75%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1986,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized INSURANCE_PROVIDER with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.442438",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 66,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 77,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 86,
+        "fuel": "63%",
+        "battery": "82%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2264,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC attempting to access data outside their authorized scope during service",
+      "expected_decision": "deny",
+      "expected_reason": "Insider attack detected: MECHANIC has valid credentials but is requesting data (location) outside their authorized scope. This violates the principle of minimal necessary disclosure.",
+      "timestamp": "2025-10-04T11:41:36.442785",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 29,
+      "scenario_type": "legitimate",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "temperature"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 61,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 86,
+        "fuel": "38%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1966,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized MECHANIC with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.442513",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 89,
+      "scenario_type": "policy_violation",
+      "sender_type": "CAR",
+      "sender_did": "did:ssi:car:vehicle2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 52,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 81,
+        "fuel": "65%",
+        "battery": "91%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2128,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized CAR requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: CAR lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442964",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 64,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 42,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 89,
+        "fuel": "35%",
+        "battery": "63%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2950,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC attempting to access data outside their authorized scope during service",
+      "expected_decision": "deny",
+      "expected_reason": "Insider attack detected: MECHANIC has valid credentials but is requesting data (location) outside their authorized scope. This violates the principle of minimal necessary disclosure.",
+      "timestamp": "2025-10-04T11:41:36.442768",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 90,
+      "scenario_type": "policy_violation",
+      "sender_type": "INDIVIDUAL",
+      "sender_did": "did:ssi:individual:user1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 55,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 86,
+        "fuel": "70%",
+        "battery": "86%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1212,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized INDIVIDUAL requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: INDIVIDUAL lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442972",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 77,
+      "scenario_type": "policy_violation",
+      "sender_type": "CAR",
+      "sender_did": "did:ssi:car:vehicle1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 54,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 85,
+        "fuel": "88%",
+        "battery": "67%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2613,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized CAR requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: CAR lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442869",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 59,
+      "scenario_type": "insider_attack",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "user_behavior",
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 77,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 90,
+        "fuel": "90%",
+        "battery": "88%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1388,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic repairing battery but requesting location and behavioral data",
+      "expected_decision": "deny",
+      "expected_reason": "Scope creep attack: Mechanic has valid consent for battery repair but is requesting location, user behavior, and trip history which are outside repair scope. This violates selective disclosure and represents potential surveillance or data harvesting.",
+      "timestamp": "2025-10-04T11:41:36.442731",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 47,
+      "scenario_type": "insider_attack",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 80,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 89,
+        "fuel": "48%",
+        "battery": "67%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1248,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "INSURANCE_PROVIDER attempting to access data outside their authorized scope during service",
+      "expected_decision": "deny",
+      "expected_reason": "Insider attack detected: INSURANCE_PROVIDER has valid credentials but is requesting data (location) outside their authorized scope. This violates the principle of minimal necessary disclosure.",
+      "timestamp": "2025-10-04T11:41:36.442639",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 75,
+      "scenario_type": "policy_violation",
+      "sender_type": "INDIVIDUAL",
+      "sender_did": "did:ssi:individual:user2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 78,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 91,
+        "fuel": "38%",
+        "battery": "60%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2589,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized INDIVIDUAL requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: INDIVIDUAL lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442853",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 7,
+      "scenario_type": "legitimate",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "fuel"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 58,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 86,
+        "fuel": "68%",
+        "battery": "81%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 1779,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "MECHANIC requesting authorized data for legitimate service",
+      "expected_decision": "approve",
+      "expected_reason": "Request from authorized MECHANIC with valid consent for the requested data type",
+      "timestamp": "2025-10-04T11:41:36.441772",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 87,
+      "scenario_type": "policy_violation",
+      "sender_type": "INDIVIDUAL",
+      "sender_did": "did:ssi:individual:user1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "speed",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 71,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 85,
+        "fuel": "77%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2312,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Unauthorized INDIVIDUAL requesting sensitive data without consent or justification",
+      "expected_decision": "deny",
+      "expected_reason": "Request denied: INDIVIDUAL lacks authorization and consent for sensitive data. No emergency justification provided.",
+      "timestamp": "2025-10-04T11:41:36.442944",
+      "user_approval_required": true
+    }
+  ]
+}

@@ -1,0 +1,932 @@
+{
+  "metadata": {
+    "description": "Held-out generalization test set - hand-crafted, NOT used to design rule_based_evaluator.py's rules. Tests whether decision logic generalizes to request patterns a rule author did not anticipate.",
+    "total_scenarios": 20,
+    "generation_timestamp": "2026-08-08T11:03:15.397766",
+    "novelty_categories": [
+      "novel_ambiguous_emergency",
+      "novel_context_implausibility",
+      "novel_purpose_drift",
+      "novel_unrecognized_entity"
+    ],
+    "category_counts": {
+      "novel_ambiguous_emergency": 5,
+      "novel_context_implausibility": 5,
+      "novel_purpose_drift": 5,
+      "novel_unrecognized_entity": 5
+    },
+    "control_case_ids": [
+      110,
+      115,
+      119
+    ],
+    "note": "control_case_ids are cases where the correct decision matches what the rule engine actually produces, included to avoid rigging this set to make the rule engine fail on everything. Scenario 117 was originally a control case but was found to have an internally inconsistent sensor_data/context pairing (claimed vehicle breakdown contradicted by normal sensor telemetry) and has been revised into a genuine insider-attack/false-pretext deny case instead - see the comment on scenario 117 above for details."
+  },
+  "scenarios": [
+    {
+      "scenario_id": 101,
+      "scenario_type": "novel_context_implausibility",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "brake_status"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 115,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 3400,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic requesting brake_status diagnostic read; vehicle sensors show it is currently being driven at 115 km/h on a highway, not at the repair shop.",
+      "expected_decision": "deny",
+      "expected_reason": "Field is on the mechanic's allow-list and consent/policy flags are set, but a mechanic cannot be performing a brake diagnostic on a vehicle traveling at highway speed. The operational context is inconsistent with the stated purpose, suggesting credential misuse rather than an active repair. A static field-whitelist check cannot detect this.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 102,
+      "scenario_type": "novel_context_implausibility",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "tire_pressure"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 102,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 3100,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic requesting tire_pressure telemetry while vehicle sensors show 102 km/h highway travel, no service appointment on record.",
+      "expected_decision": "deny",
+      "expected_reason": "Same implausible-context pattern: allowed field, satisfied flags, but no physical way to be servicing tires on a moving vehicle. Indicates opportunistic remote data pull rather than legitimate repair access.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 103,
+      "scenario_type": "novel_context_implausibility",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "battery",
+        "temperature"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 90,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2800,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic requesting battery and temperature readings; vehicle is on a highway at 90 km/h with no active service ticket.",
+      "expected_decision": "deny",
+      "expected_reason": "Two allowed fields requested simultaneously under the same implausible moving-vehicle context. Multiplicity of fields does not change the core issue: no legitimate repair action can be occurring right now.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 104,
+      "scenario_type": "novel_context_implausibility",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "mileage"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 45,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2000,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Insurance provider requesting mileage under a consent record that has never been revoked, but context notes the vehicle was sold to an unrelated new owner 60 days ago and the policy has lapsed.",
+      "expected_decision": "deny",
+      "expected_reason": "Mileage is an allowed field and the stale consent flag is still technically True, but the underlying insured relationship has ended. A static consent flag with no expiry/relationship check cannot detect this - the rule engine has no representation of 'is this authorization still valid'.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 105,
+      "scenario_type": "novel_context_implausibility",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "fuel"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 70,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2500,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic describes this as a 'routine remote diagnostic ping while the customer is driving'; vehicle is moving at 70 km/h on a highway.",
+      "expected_decision": "deny",
+      "expected_reason": "The stated purpose itself ('while the customer is driving') confirms the implausible context rather than concealing it - a competent reasoner should flag this explicitly, a field-whitelist rule cannot.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 106,
+      "scenario_type": "novel_purpose_drift",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "temperature"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 45,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2000,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic states the temperature readings will be aggregated across all serviced vehicles to build and sell a predictive-maintenance analytics product to a fleet insurer, unrelated to this vehicle's repair.",
+      "expected_decision": "deny",
+      "expected_reason": "Field is allowed and consent was given for THIS vehicle's repair, not for resale into a third-party analytics product. This is a purpose-limitation violation the rule engine cannot see because it never parses the 'context' field's stated purpose - it only checks field membership.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 107,
+      "scenario_type": "novel_purpose_drift",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 45,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2000,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Insurance provider is compiling trip_history into a marketing dataset for resale to third parties, unrelated to underwriting or claims.",
+      "expected_decision": "deny",
+      "expected_reason": "Trip history is on the insurer's allow-list for underwriting purposes; reselling it for marketing is a distinct, unconsented purpose.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 108,
+      "scenario_type": "novel_purpose_drift",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop2",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "brake_status"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 45,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2000,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Mechanic is using diagnostic access to gather evidence of the owner's driving habits for an unrelated personal legal dispute with the vehicle owner.",
+      "expected_decision": "deny",
+      "expected_reason": "Same allowed field, same satisfied flags, but the purpose is adversarial and entirely outside the repair relationship.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 109,
+      "scenario_type": "novel_purpose_drift",
+      "sender_type": "INSURANCE_PROVIDER",
+      "sender_did": "did:ssi:insurance:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "speed"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 45,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2000,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Insurance provider wants continuous real-time speed logging fed into a public 'driver leaderboard' consumer app the insurer separately operates.",
+      "expected_decision": "deny",
+      "expected_reason": "Speed is allowed for usage-based insurance risk assessment, not for publishing to a public-facing consumer app - a materially different, unconsented purpose and exposure risk.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 110,
+      "scenario_type": "novel_purpose_drift",
+      "sender_type": "MECHANIC",
+      "sender_did": "did:ssi:mechanic:shop1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "fuel"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 800,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Routine repair follow-up: fuel reading requested to diagnose a previously reported stalling issue during a scheduled service visit. Vehicle is parked at the shop, engine idling.",
+      "expected_decision": "approve",
+      "expected_reason": "CONTROL CASE: purpose is squarely within the repair relationship, and the vehicle's stationary/idling sensor state is consistent with an active service visit. Included so this set is not artificially rigged to make every mechanic request look suspicious.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 111,
+      "scenario_type": "novel_ambiguous_emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:911",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 105,
+        "fuel": "45%",
+        "battery": "50%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "not_deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 3.0,
+        "emergency_alert": true
+      },
+      "context": "Low-speed rollover into a roadside ditch. Airbags did not trigger because the impact vector was lateral/rollover, not frontal. Occupant reports being trapped and disoriented via emergency call.",
+      "expected_decision": "approve",
+      "expected_reason": "A genuine emergency masked by the rigid 'collision AND airbag-deployed' requirement: rollover impacts often do not trigger frontal airbags at all. The rule engine's AND-condition treats this identically to a false claim.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 112,
+      "scenario_type": "novel_ambiguous_emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:ambulance",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 105,
+        "fuel": "45%",
+        "battery": "50%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 0,
+        "emergency_alert": true
+      },
+      "context": "No collision recorded. Driver manually triggered the in-cabin medical-distress button while parked, reporting a possible cardiac event.",
+      "expected_decision": "approve",
+      "expected_reason": "A medical emergency entirely unrelated to a collision. The rule engine's emergency-override rule is hard-wired to collision/airbag sensors and can never approve a non-collision medical emergency, regardless of evidence.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 113,
+      "scenario_type": "novel_ambiguous_emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:911",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 105,
+        "fuel": "45%",
+        "battery": "50%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 4.0,
+        "emergency_alert": true
+      },
+      "context": "Moderate-speed rear-end collision. Airbags deployed. Occupant reports neck pain and requests medical data be shared with responders.",
+      "expected_decision": "approve",
+      "expected_reason": "Collision confirmed and airbags deployed, but impact_force (4.0g) falls just under the rule engine's fixed 5g cutoff. An arbitrary numeric threshold has no principled reason to treat 4.0g as 'not an emergency' when airbags have already deployed - this demonstrates the brittleness of hard thresholds.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 114,
+      "scenario_type": "novel_ambiguous_emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:911",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 105,
+        "fuel": "45%",
+        "battery": "50%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "not_deployed",
+        "collision_detected": true,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 6.5,
+        "emergency_alert": true
+      },
+      "context": "High-force lateral side-impact collision. Side-curtain airbags deployed via a subsystem not reflected in the primary airbag_status sensor field. Occupant unresponsive.",
+      "expected_decision": "approve",
+      "expected_reason": "impact_force (6.5g) clears the threshold, but airbag_status reads 'not_deployed' because the sensor schema only tracks the frontal-airbag subsystem, not side-curtain airbags. This is a sensor-schema gap: the rule engine's rigid AND-condition fails whenever the fixed feature set cannot represent the real event, whereas a reasoning system can weigh the impact force and context text directly.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 115,
+      "scenario_type": "novel_ambiguous_emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "sender_did": "did:ssi:emergency:ambulance",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "sensor_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "sensor_data": {
+        "speed": 0,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 105,
+        "fuel": "45%",
+        "battery": "50%",
+        "brake_status": "emergency_engaged",
+        "tire_pressure": [
+          28,
+          0,
+          30,
+          32
+        ],
+        "engine_rpm": 0,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": -15.5,
+          "y": -2.3,
+          "z": 8.2
+        },
+        "impact_force": 0,
+        "emergency_alert": true
+      },
+      "context": "Claimed emergency; driver is requesting expedited data sharing to 'get to a hospital faster' but there is no collision, distress signal, or reported symptom - driver admits to just being in a hurry.",
+      "expected_decision": "deny",
+      "expected_reason": "CONTROL CASE: this is a genuine false-emergency claim with no corroborating evidence of any kind. The rule engine correctly denies this one too - included to show the rule engine is not uniformly wrong on emergencies, only on ones its rigid feature set cannot represent.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 116,
+      "scenario_type": "novel_unrecognized_entity",
+      "sender_type": "THIRD_PARTY_DATA_BROKER",
+      "sender_did": "did:ssi:broker:adtech1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 45,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2000,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "A third-party data broker, not enrolled in any service relationship with the vehicle owner, requests continuous location and behavioral data. Consent flag is True only because it was bundled into a lengthy app-signup EULA the user never read.",
+      "expected_decision": "deny",
+      "expected_reason": "THIRD_PARTY_DATA_BROKER does not exist in the rule engine's hardcoded consent matrix at all, so its scope-check rule is silently skipped and the decision collapses to raw policy/consent booleans with no scope check whatsoever - approving a bulk location+behavior request with no legitimate operational relationship to the vehicle.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 117,
+      "scenario_type": "novel_unrecognized_entity",
+      "sender_type": "TOWING_SERVICE",
+      "sender_did": "did:ssi:towing:service1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "location"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 45,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2000,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Entity presenting as a towing service claims the vehicle broke down on the roadside and requests location to arrange pickup. Vehicle sensors show completely normal operation: brake_status functional, steady 45 km/h cruising speed, normal engine RPM and acceleration - no fault codes, no stop, no indication of any breakdown whatsoever.",
+      "expected_decision": "deny",
+      "expected_reason": "Insider attack / false-pretext detection: the stated justification for this request (vehicle breakdown) is directly contradicted by real-time sensor evidence showing the vehicle operating normally. TOWING_SERVICE is absent from the rule engine's hardcoded consent matrix, so its scope-check rule is silently skipped and the decision collapses to raw policy/consent booleans (both True here) with no cross-check against sensor reality at all - approving a location request justified by a fabricated emergency.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 118,
+      "scenario_type": "novel_unrecognized_entity",
+      "sender_type": "SMART_CITY_TRAFFIC_AUTHORITY",
+      "sender_did": "did:ssi:gov:traffic_dept1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "real_time_tracking",
+        "location",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 45,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2000,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "A municipal traffic authority requests continuous individual-level vehicle tracking and behavioral data for 'traffic optimization research'. Consent flag defaulted to True during a city vehicle-registration renewal, buried in fine print, no explicit opt-in and no warrant.",
+      "expected_decision": "deny",
+      "expected_reason": "Same brittleness pattern: entity type not in the matrix, no scope check applied, request for continuous individually-identifiable tracking approved purely because a buried default-consent flag happens to read True.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 119,
+      "scenario_type": "novel_unrecognized_entity",
+      "sender_type": "VEHICLE_RECALL_AGENCY",
+      "sender_did": "did:ssi:recall:agency1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user2",
+      "requested_data": [
+        "diagnostic_codes"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 45,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2000,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "Manufacturer-mandated safety-recall check for a known braking defect affecting this VIN; a narrow, one-time diagnostic-code read.",
+      "expected_decision": "approve",
+      "expected_reason": "CONTROL CASE: unrecognized entity type, but narrow scope and a legitimate, safety-relevant relationship (an active manufacturer recall on this VIN).",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 120,
+      "scenario_type": "novel_unrecognized_entity",
+      "sender_type": "FLEET_MANAGEMENT_COMPANY",
+      "sender_did": "did:ssi:fleet:company1",
+      "recipient_type": "INDIVIDUAL",
+      "recipient_did": "did:ssi:individual:user1",
+      "requested_data": [
+        "location",
+        "speed",
+        "trip_history",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "sensor_data": {
+        "speed": 45,
+        "location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        },
+        "temperature": 88,
+        "fuel": "60%",
+        "battery": "80%",
+        "brake_status": "functional",
+        "tire_pressure": [
+          32,
+          32,
+          31,
+          33
+        ],
+        "engine_rpm": 2000,
+        "airbag_status": "not_deployed",
+        "collision_detected": false,
+        "acceleration": {
+          "x": 0.5,
+          "y": 0.2,
+          "z": 9.8
+        }
+      },
+      "context": "A fleet-management company requests full continuous telemetry access, despite the vehicle being privately owned and never enrolled in any fleet program. has_consent flag is set True due to a data-sharing default that was never actually reviewed by the owner.",
+      "expected_decision": "deny",
+      "expected_reason": "Bulk multi-field request from an entity with no enrollment relationship to this specific vehicle; approved by the rule engine purely because the unrecognized entity type bypasses the scope-check rule entirely.",
+      "timestamp": "2026-08-08T11:03:15.397766",
+      "user_approval_required": true
+    }
+  ]
+}

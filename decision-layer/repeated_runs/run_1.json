@@ -1,0 +1,539 @@
+{
+  "evaluation_metadata": {
+    "model_name": "llama3.2:3b",
+    "total_scenarios": 20,
+    "evaluation_timestamp": "2026-08-08T00:16:23.698617"
+  },
+  "overall_metrics": {
+    "accuracy_percent": 85.0,
+    "correct_decisions": 17,
+    "incorrect_decisions": 3,
+    "false_positives": 0,
+    "false_negatives": 3,
+    "average_confidence": 0.815,
+    "average_response_time_seconds": 2.806
+  },
+  "scenario_type_performance": {
+    "novel_ambiguous_emergency": {
+      "accuracy_percent": 100.0,
+      "correct": 5,
+      "total": 5
+    },
+    "novel_context_implausibility": {
+      "accuracy_percent": 100.0,
+      "correct": 5,
+      "total": 5
+    },
+    "novel_purpose_drift": {
+      "accuracy_percent": 80.0,
+      "correct": 4,
+      "total": 5
+    },
+    "novel_unrecognized_entity": {
+      "accuracy_percent": 60.0,
+      "correct": 3,
+      "total": 5
+    }
+  },
+  "emergency_detection": {
+    "accuracy_percent": 100.0,
+    "correctly_handled": 5,
+    "total_emergencies": 5
+  },
+  "insider_attack_detection": {
+    "detection_rate_percent": 0,
+    "detected": 0,
+    "total_attacks": 0
+  },
+  "detailed_results": [
+    {
+      "scenario_id": 101,
+      "scenario_type": "novel_context_implausibility",
+      "sender_type": "MECHANIC",
+      "requested_data": [
+        "brake_status"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "deny",
+      "expected_reason": "Field is on the mechanic's allow-list and consent/policy flags are set, but a mechanic cannot be performing a brake diagnostic on a vehicle traveling at highway speed. The operational context is inconsistent with the stated purpose, suggesting credential misuse rather than an active repair. A static field-whitelist check cannot detect this.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "The mechanic's request is operationally implausible given the vehicle's current speed of 115 km/h on a highway, which contradicts the claimed legitimate action of servicing the vehicle at the repair shop.",
+      "threat_detected": "context_implausible",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": true,
+      "response_time": 2.602259397506714,
+      "timestamp": "2026-08-08T00:15:20.144940",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 102,
+      "scenario_type": "novel_context_implausibility",
+      "sender_type": "MECHANIC",
+      "requested_data": [
+        "tire_pressure"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "deny",
+      "expected_reason": "Same implausible-context pattern: allowed field, satisfied flags, but no physical way to be servicing tires on a moving vehicle. Indicates opportunistic remote data pull rather than legitimate repair access.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "Mechanic's request is operationally implausible due to the vehicle being in motion (speed > 0), which contradicts the role-specific contextual note. Despite policy allowing and user consent, the current vehicle state and stated purpose do not align with a legitimate mechanic action.",
+      "threat_detected": "context_implausible",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": true,
+      "response_time": 2.3965203762054443,
+      "timestamp": "2026-08-08T00:15:23.041743",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 103,
+      "scenario_type": "novel_context_implausibility",
+      "sender_type": "MECHANIC",
+      "requested_data": [
+        "battery",
+        "temperature"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "deny",
+      "expected_reason": "Two allowed fields requested simultaneously under the same implausible moving-vehicle context. Multiplicity of fields does not change the core issue: no legitimate repair action can be occurring right now.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "Mechanic's request is operationally implausible due to the vehicle being in motion (speed > 0). The stated purpose of requesting battery and temperature readings does not align with the current situation, indicating potential scope creep or misuse.",
+      "threat_detected": "context_implausible",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": true,
+      "response_time": 2.360119581222534,
+      "timestamp": "2026-08-08T00:15:25.902290",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 104,
+      "scenario_type": "novel_context_implausibility",
+      "sender_type": "INSURANCE_PROVIDER",
+      "requested_data": [
+        "mileage"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "deny",
+      "expected_reason": "Mileage is an allowed field and the stale consent flag is still technically True, but the underlying insured relationship has ended. A static consent flag with no expiry/relationship check cannot detect this - the rule engine has no representation of 'is this authorization still valid'.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "The insurance provider's request for mileage data is inconsistent with the current vehicle state (sold to an unrelated new owner 60 days ago) and the stated purpose of risk assessment under a lapsed policy. The context notes the vehicle was sold, which suggests a resale or marketing intent rather than legitimate risk assessment. Additionally, the consent flag is not specific to this purpose, as it has never been revoked but is tied to an unrelated new owner.",
+      "threat_detected": "context_implausible",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": true,
+      "response_time": 2.9785614013671875,
+      "timestamp": "2026-08-08T00:15:29.381147",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 105,
+      "scenario_type": "novel_context_implausibility",
+      "sender_type": "MECHANIC",
+      "requested_data": [
+        "fuel"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "deny",
+      "expected_reason": "The stated purpose itself ('while the customer is driving') confirms the implausible context rather than concealing it - a competent reasoner should flag this explicitly, a field-whitelist rule cannot.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "Request from a mechanic claiming routine remote diagnostic ping while the customer is driving, but vehicle is moving at 70 km/h on a highway. This operationally implausible scenario suggests potential scope creep or insider attack.",
+      "threat_detected": "context_implausible",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": true,
+      "response_time": 2.7374885082244873,
+      "timestamp": "2026-08-08T00:15:32.618879",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 106,
+      "scenario_type": "novel_purpose_drift",
+      "sender_type": "MECHANIC",
+      "requested_data": [
+        "temperature"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "deny",
+      "expected_reason": "Field is allowed and consent was given for THIS vehicle's repair, not for resale into a third-party analytics product. This is a purpose-limitation violation the rule engine cannot see because it never parses the 'context' field's stated purpose - it only checks field membership.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "Request from MECHANIC claims temperature readings will be aggregated for predictive-maintenance analytics, but the vehicle is currently in motion (speed = 45). This operationally implausible scenario suggests a potential insider attack or scope creep, despite policy allowing and user consent being present.",
+      "threat_detected": "context_implausible",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": true,
+      "response_time": 2.5105767250061035,
+      "timestamp": "2026-08-08T00:15:35.629707",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 107,
+      "scenario_type": "novel_purpose_drift",
+      "sender_type": "INSURANCE_PROVIDER",
+      "requested_data": [
+        "trip_history"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "deny",
+      "expected_reason": "Trip history is on the insurer's allow-list for underwriting purposes; reselling it for marketing is a distinct, unconsented purpose.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "The InsuranceProvider claims to be compiling trip_history for marketing purposes, which is unrelated to underwriting or claims handling. The CURRENT vehicle state (speed) and the stated purpose are inconsistent with the sender's legitimate action happening right now.",
+      "threat_detected": "context_implausible",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": true,
+      "response_time": 2.3688881397247314,
+      "timestamp": "2026-08-08T00:15:38.498839",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 108,
+      "scenario_type": "novel_purpose_drift",
+      "sender_type": "MECHANIC",
+      "requested_data": [
+        "brake_status"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "deny",
+      "expected_reason": "Same allowed field, same satisfied flags, but the purpose is adversarial and entirely outside the repair relationship.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "Request from a MECHANIC claiming diagnostic access for an unrelated personal legal dispute with the vehicle owner, despite the vehicle being in motion (speed > 0), and lack of contextual plausibility.",
+      "threat_detected": "context_implausible",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": true,
+      "response_time": 2.3045854568481445,
+      "timestamp": "2026-08-08T00:15:41.303760",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 109,
+      "scenario_type": "novel_purpose_drift",
+      "sender_type": "INSURANCE_PROVIDER",
+      "requested_data": [
+        "speed"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "deny",
+      "expected_reason": "Speed is allowed for usage-based insurance risk assessment, not for publishing to a public-facing consumer app - a materially different, unconsented purpose and exposure risk.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "The insurance provider's stated purpose of feeding real-time speed data into a public 'driver leaderboard' consumer app for their separate business is inconsistent with the claimed legitimate action of risk assessment or claims processing, which are typically done in isolation from external analytics products.",
+      "threat_detected": "purpose_drift",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": true,
+      "response_time": 2.878030776977539,
+      "timestamp": "2026-08-08T00:15:44.682049",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 110,
+      "scenario_type": "novel_purpose_drift",
+      "sender_type": "MECHANIC",
+      "requested_data": [
+        "fuel"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "approve",
+      "expected_reason": "CONTROL CASE: purpose is squarely within the repair relationship and matches an active service context. Included so this set is not artificially rigged to make every mechanic request look suspicious.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "Request from a MECHANIC claiming an emergency repair follow-up, but the vehicle is currently in motion (speed = 45). The stated purpose of diagnosing a previously reported stalling issue during a scheduled service visit is operationally implausible given the vehicle's current state.",
+      "threat_detected": "context_implausible",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": false,
+      "response_time": 2.55385160446167,
+      "timestamp": "2026-08-08T00:15:47.736219",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 111,
+      "scenario_type": "novel_ambiguous_emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "expected_decision": "approve",
+      "expected_reason": "A genuine emergency masked by the rigid 'collision AND airbag-deployed' requirement: rollover impacts often do not trigger frontal airbags at all. The rule engine's AND-condition treats this identically to a false claim.",
+      "llm_decision": "approve",
+      "llm_confidence": 0.9,
+      "llm_reasoning": "The totality of sensor evidence and context supports a genuine emergency, despite the lack of user consent and policy allowing flag. The rollover into a roadside ditch with no frontal airbag deployment and impact force just under a nominal cutoff are indicative of a legitimate emergency. The EMERGENCY_SERVICE sender type has an allow-list for all data during verified emergencies, which is being met here.",
+      "threat_detected": "none",
+      "emergency_justified": true,
+      "recommended_data_scope": [
+        "location",
+        "sensor_data"
+      ],
+      "is_correct": true,
+      "response_time": 3.0099668502807617,
+      "timestamp": "2026-08-08T00:15:51.246470",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 112,
+      "scenario_type": "novel_ambiguous_emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "requested_data": [
+        "location",
+        "sensor_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "expected_decision": "approve",
+      "expected_reason": "A medical emergency entirely unrelated to a collision. The rule engine's emergency-override rule is hard-wired to collision/airbag sensors and can never approve a non-collision medical emergency, regardless of evidence.",
+      "llm_decision": "approve",
+      "llm_confidence": 0.9,
+      "llm_reasoning": "The EMERGENCY_SERVICE claimed a genuine emergency with user consent and policy allowing data sharing during emergencies. The totality of sensor evidence supports this claim, including the manually triggered medical-distress button and no collision detected. The role-specific contextual note emphasizes weighing all available evidence together, not relying on rigid thresholds alone.",
+      "threat_detected": "none",
+      "emergency_justified": true,
+      "recommended_data_scope": [
+        "location",
+        "sensor_data"
+      ],
+      "is_correct": true,
+      "response_time": 2.7971315383911133,
+      "timestamp": "2026-08-08T00:15:54.543973",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 113,
+      "scenario_type": "novel_ambiguous_emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "expected_decision": "approve",
+      "expected_reason": "Collision confirmed and airbags deployed, but impact_force (4.0g) falls just under the rule engine's fixed 5g cutoff. An arbitrary numeric threshold has no principled reason to treat 4.0g as 'not an emergency' when airbags have already deployed - this demonstrates the brittleness of hard thresholds.",
+      "llm_decision": "approve",
+      "llm_confidence": 0.9,
+      "llm_reasoning": "The totality of sensor evidence supports a genuine emergency, and the EMERGENCY_SERVICE sender is claiming an authentic situation with context that aligns with their role's purpose.",
+      "threat_detected": "none",
+      "emergency_justified": true,
+      "recommended_data_scope": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_correct": true,
+      "response_time": 2.8026044368743896,
+      "timestamp": "2026-08-08T00:15:57.846843",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 114,
+      "scenario_type": "novel_ambiguous_emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "requested_data": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "expected_decision": "approve",
+      "expected_reason": "impact_force (6.5g) clears the threshold, but airbag_status reads 'not_deployed' because the sensor schema only tracks the frontal-airbag subsystem, not side-curtain airbags. This is a sensor-schema gap: the rule engine's rigid AND-condition fails whenever the fixed feature set cannot represent the real event, whereas a reasoning system can weigh the impact force and context text directly.",
+      "llm_decision": "approve",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "The totality of sensor evidence and context supports a genuine emergency, as indicated by the presence of collision_detected, impact_force, emergency_alert, and the sender's claim of an EMERGENCY_SERVICE role. The vehicle's current state (e.g., speed/motion) is consistent with the claimed action happening right now. Policy allows for emergency overrides when the totality of evidence supports a genuine emergency.",
+      "threat_detected": "none",
+      "emergency_justified": true,
+      "recommended_data_scope": [
+        "location",
+        "sensor_data",
+        "collision_data"
+      ],
+      "is_correct": true,
+      "response_time": 3.1872987747192383,
+      "timestamp": "2026-08-08T00:16:01.534543",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 115,
+      "scenario_type": "novel_ambiguous_emergency",
+      "sender_type": "EMERGENCY_SERVICE",
+      "requested_data": [
+        "location",
+        "sensor_data"
+      ],
+      "is_emergency": true,
+      "has_consent": false,
+      "policy_allows": false,
+      "expected_decision": "deny",
+      "expected_reason": "CONTROL CASE: this is a genuine false-emergency claim with no corroborating evidence of any kind. The rule engine correctly denies this one too - included to show the rule engine is not uniformly wrong on emergencies, only on ones its rigid feature set cannot represent.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "Lack of user consent and contextually implausible purpose (driver claiming emergency but no collision, distress signal, or reported symptom). Role-specific contextual note emphasizes validation of emergency using all available evidence, including sensor thresholds and free-text context.",
+      "threat_detected": "false_emergency",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": true,
+      "response_time": 2.595270872116089,
+      "timestamp": "2026-08-08T00:16:04.630150",
+      "user_approval_required": false
+    },
+    {
+      "scenario_id": 116,
+      "scenario_type": "novel_unrecognized_entity",
+      "sender_type": "THIRD_PARTY_DATA_BROKER",
+      "requested_data": [
+        "location",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "deny",
+      "expected_reason": "THIRD_PARTY_DATA_BROKER does not exist in the rule engine's hardcoded consent matrix at all, so its scope-check rule is silently skipped and the decision collapses to raw policy/consent booleans with no scope check whatsoever - approving a bulk location+behavior request with no legitimate operational relationship to the vehicle.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "The sender is a THIRD_PARTY_DATA_BROKER without a predefined role profile, and the consent flag is only True due to a bundled EULA. The requested data includes location and user behavior, which are not explicitly allowed for this sender type in the Consent Matrix. Additionally, the stated purpose of continuous tracking seems inconsistent with the legitimate role function of a data broker.",
+      "threat_detected": "context_implausible",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": true,
+      "response_time": 3.0230047702789307,
+      "timestamp": "2026-08-08T00:16:08.153366",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 117,
+      "scenario_type": "novel_unrecognized_entity",
+      "sender_type": "TOWING_SERVICE",
+      "requested_data": [
+        "location"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "approve",
+      "expected_reason": "CONTROL CASE: also an entity type absent from the hardcoded matrix, but the request is narrow, driver-initiated, and clearly legitimate. Included so this set does not equate 'unrecognized entity' with 'automatically deny'.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "Sender type 'TOWING_SERVICE' lacks a predefined role profile, making it difficult to assess their legitimate relationship to this specific vehicle. The stated purpose (vehicle broke down on the roadside) is plausible but not directly supported by the sender's claimed action (shared location). Additionally, the policy allows sharing of location data for towing services, but the current vehicle state (speed/motion) suggests that the driver may be in motion or has recently moved, which could indicate a false emergency claim.",
+      "threat_detected": "context_implausible",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": false,
+      "response_time": 3.8061447143554688,
+      "timestamp": "2026-08-08T00:16:12.459748",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 118,
+      "scenario_type": "novel_unrecognized_entity",
+      "sender_type": "SMART_CITY_TRAFFIC_AUTHORITY",
+      "requested_data": [
+        "real_time_tracking",
+        "location",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "deny",
+      "expected_reason": "Same brittleness pattern: entity type not in the matrix, no scope check applied, request for continuous individually-identifiable tracking approved purely because a buried default-consent flag happens to read True.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "The sender type 'SMART_CITY_TRAFFIC_AUTHORITY' lacks a predefined role profile, making it difficult to assess their legitimacy without additional context. The consent flag defaulted during a city vehicle-registration renewal, buried in fine print, and there's no explicit opt-in for continuous individual-level tracking and behavioral data. The stated purpose of 'traffic optimization research' is unclear and may not align with the sender's actual role or capabilities.",
+      "threat_detected": "context_implausible",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": true,
+      "response_time": 3.2765674591064453,
+      "timestamp": "2026-08-08T00:16:16.236636",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 119,
+      "scenario_type": "novel_unrecognized_entity",
+      "sender_type": "VEHICLE_RECALL_AGENCY",
+      "requested_data": [
+        "diagnostic_codes"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "approve",
+      "expected_reason": "CONTROL CASE: unrecognized entity type, but narrow scope and a legitimate, safety-relevant relationship (an active manufacturer recall on this VIN).",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "The request lacks contextual plausibility due to the vehicle's current state (speed=45) and the claimed purpose of a manufacturer-mandated safety-recall check, which may not be directly related to the sender's role as a VEHICLE_RECALL_AGENCY.",
+      "threat_detected": "context_implausible",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": false,
+      "response_time": 2.806453227996826,
+      "timestamp": "2026-08-08T00:16:19.543335",
+      "user_approval_required": true
+    },
+    {
+      "scenario_id": 120,
+      "scenario_type": "novel_unrecognized_entity",
+      "sender_type": "FLEET_MANAGEMENT_COMPANY",
+      "requested_data": [
+        "location",
+        "speed",
+        "trip_history",
+        "user_behavior"
+      ],
+      "is_emergency": false,
+      "has_consent": true,
+      "policy_allows": true,
+      "expected_decision": "deny",
+      "expected_reason": "Bulk multi-field request from an entity with no enrollment relationship to this specific vehicle; approved by the rule engine purely because the unrecognized entity type bypasses the scope-check rule entirely.",
+      "llm_decision": "deny",
+      "llm_confidence": 0.8,
+      "llm_reasoning": "Sender type 'FLEET_MANAGEMENT_COMPANY' lacks a predefined role profile, making it impossible to verify their legitimate relationship to this specific vehicle. The has_consent flag is set due to a data-sharing default that was never reviewed by the owner, and the stated purpose of full continuous telemetry access is inconsistent with the vehicle being privately owned and never enrolled in any fleet program.",
+      "threat_detected": "context_implausible",
+      "emergency_justified": false,
+      "recommended_data_scope": [],
+      "is_correct": true,
+      "response_time": 3.1167843341827393,
+      "timestamp": "2026-08-08T00:16:23.160464",
+      "user_approval_required": true
+    }
+  ]
+}

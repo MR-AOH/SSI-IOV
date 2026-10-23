@@ -1,0 +1,34 @@
+
+================================================================================
+REPEATED-TRIALS SUMMARY: n_trials=5
+================================================================================
+
+Overall accuracy: 82.0% ± 2.7 (individual runs: [np.float64(85.0), np.float64(80.0), np.float64(85.0), np.float64(80.0), np.float64(80.0)])
+
+Per-category (mean ± std across runs, plus majority-vote accuracy):
+  novel_ambiguous_emergency         88.0% ± 11.0   majority-vote: 100.0%   runs=[np.float64(100.0), np.float64(80.0), np.float64(100.0), np.float64(80.0), np.float64(80.0)]
+  novel_context_implausibility     100.0% ± 0.0    majority-vote: 100.0%   runs=[np.float64(100.0), np.float64(100.0), np.float64(100.0), np.float64(100.0), np.float64(100.0)]
+  novel_purpose_drift               80.0% ± 0.0    majority-vote: 80.0%   runs=[np.float64(80.0), np.float64(80.0), np.float64(80.0), np.float64(80.0), np.float64(80.0)]
+  novel_unrecognized_entity         80.0% ± 0.0    majority-vote: 80.0%   runs=[np.float64(80.0), np.float64(80.0), np.float64(80.0), np.float64(80.0), np.float64(80.0)]
+
+Per-scenario stability (low agreement_pct = the model flip-flops on this one):
+  id=101  novel_context_implausibility   expected=deny     majority=deny     agreement=100.0%
+  id=102  novel_context_implausibility   expected=deny     majority=deny     agreement=100.0%
+  id=103  novel_context_implausibility   expected=deny     majority=deny     agreement=100.0%
+  id=104  novel_context_implausibility   expected=deny     majority=deny     agreement=100.0%
+  id=105  novel_context_implausibility   expected=deny     majority=deny     agreement=100.0%
+  id=106  novel_purpose_drift            expected=deny     majority=deny     agreement=100.0%
+  id=107  novel_purpose_drift            expected=deny     majority=deny     agreement=100.0%
+  id=108  novel_purpose_drift            expected=deny     majority=deny     agreement=100.0%
+  id=109  novel_purpose_drift            expected=deny     majority=deny     agreement=100.0%
+  id=110  novel_purpose_drift            expected=approve  majority=deny     agreement=100.0%
+  id=111  novel_ambiguous_emergency      expected=approve  majority=approve  agreement=100.0%
+  id=112  novel_ambiguous_emergency      expected=approve  majority=approve  agreement= 80.0%  
+  id=113  novel_ambiguous_emergency      expected=approve  majority=approve  agreement=100.0%
+  id=114  novel_ambiguous_emergency      expected=approve  majority=approve  agreement= 80.0%
+  id=115  novel_ambiguous_emergency      expected=deny     majority=deny     agreement=100.0%
+  id=116  novel_unrecognized_entity      expected=deny     majority=deny     agreement=100.0%
+  id=117  novel_unrecognized_entity      expected=approve  majority=deny     agreement=100.0%
+  id=118  novel_unrecognized_entity      expected=deny     majority=deny     agreement=100.0%
+  id=119  novel_unrecognized_entity      expected=approve  majority=deny     agreement=100.0%
+  id=120  novel_unrecognized_entity      expected=deny     majority=deny     agreement=100.0%
