@@ -207,22 +207,6 @@ directly from them, not from re-running anything.
 
 ---
 
-## Known limitation (documented, not hidden)
-
-`results/ssi_iov_network_results.csv` is produced by a **fallback formula**
-in the NS-3 simulation, not by real FlowMonitor-measured throughput/
-latency/packet-delivery-ratio — this was verified by exact formula-matching
-against the simulation's source. For that reason, the paper does **not**
-report network-layer throughput/PDR claims from this file, and
-`make_paper_figures.py` does not plot it (`PLOT_NETWORK_PERFORMANCE = False`).
-Real network-layer characterization (actual FlowMonitor output under the
-802.11p mobility model already implemented in `ssi-simulation.cc`) is left
-as future work. Every other result in this repository — the cryptographic
-timings, the blockchain-anchored timings, and the LLM/rule-based decision
-metrics — is a genuine, measured result, not estimated or fabricated.
-
----
-
 ## Citation
 
 If you use this code, please cite the paper:
